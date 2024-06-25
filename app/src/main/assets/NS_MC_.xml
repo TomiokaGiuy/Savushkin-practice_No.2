@@ -1,0 +1,53 @@
+<?xml version="1.0" standalone="yes"?>
+<BD_NS_MC>
+	<NS_MC>
+		<KMC>0101000001</KMC>
+		<KRKMC>0</KRKMC>
+		<MARK2D>0</MARK2D>
+		<GRADUS> </GRADUS>
+		<SNM>Масло шоколадное весовое</SNM>
+		<SRR>0</SRR>
+		<SRP>0</SRP>
+		<EAN13>4810268000485</EAN13>
+	</NS_MC>
+	<NS_MC>
+		<KMC>0101000003</KMC>
+		<KRKMC>570</KRKMC>
+		<MARK2D>0</MARK2D>
+		<GRADUS> </GRADUS>
+		<SNM>Масло сливочное АССОРТИ №2</SNM>
+		<SRR>960</SRR>
+		<SRP>0</SRP>
+		<EAN13>4810268002243</EAN13>
+	</NS_MC>
+	<NS_MC>
+		<KMC>0101000004</KMC>
+		<KRKMC>580</KRKMC>
+		<MARK2D>0</MARK2D>
+		<GRADUS>не <![CDATA[>]]> +6</GRADUS>
+		<SNM>Масло сливочное АССОРТИ №3</SNM>
+		<SRR>960</SRR>
+		<SRP>0</SRP>
+		<EAN13>4810268012181</EAN13>
+	</NS_MC>
+	<NS_MC>
+		<KMC>0101000005</KMC>
+		<KRKMC>581</KRKMC>
+		<MARK2D>0</MARK2D>
+		<GRADUS> </GRADUS>
+		<SNM>Масло сливочное АССОРТИ №4</SNM>
+		<SRR>960</SRR>
+		<SRP>0</SRP>
+		<EAN13>4810268012341</EAN13>
+	</NS_MC>
+	<NS_MC>
+		<KMC>0101000006</KMC>
+		<KRKMC>508</KRKMC>
+		<MARK2D>0</MARK2D>
+		<GRADUS>не <![CDATA[>]]> +6</GRADUS>
+		<SNM>Масло сливочное АССОРТИ №6</SNM>
+		<SRR>960</SRR>
+		<SRP>0</SRP>
+		<EAN13>4810268014772</EAN13>
+	</NS_MC>
+</BD_NS_MC>
