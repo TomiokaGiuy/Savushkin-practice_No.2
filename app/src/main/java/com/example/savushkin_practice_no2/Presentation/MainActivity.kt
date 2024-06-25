@@ -1,4 +1,4 @@
-package com.example.savushkin_practice_no2
+package com.example.savushkin_practice_no2.Presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
