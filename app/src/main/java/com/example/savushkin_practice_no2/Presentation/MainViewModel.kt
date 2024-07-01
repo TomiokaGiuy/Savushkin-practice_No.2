@@ -311,7 +311,9 @@ class MainViewModel(private val dataRepository: DatabaseRepository,  private val
                                     productsData.SNM = contentValuesNs_mc.getAsString("SNM")
                                     if (!productsData.SNM.isNullOrEmpty() && _dataListProducts.value.isNullOrEmpty()){
                                         value.put("Name", productsData.SNM)
-                                        _dataListProducts.postValue(listOf(value))
+
+                                    }else{
+                                        value.remove("Name")
                                     }
 
                                     Log.d("2 LiveDataContent", "2 ContentValues: $contentValuesNs_mc SNM ${productsData.SNM} Volumn ${productsData.Volume}")
@@ -323,6 +325,7 @@ class MainViewModel(private val dataRepository: DatabaseRepository,  private val
                     }
                 }
             }
+            _dataListProducts.postValue(listOf(value))
             data.observeForever(observer)
         }
     }
