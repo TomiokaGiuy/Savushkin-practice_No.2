@@ -76,8 +76,8 @@ fun MainContent(
 
                     Log.d("Read XML", "Success")
                 }
-
-/*                MyButton(text = "Test") {
+/*
+                MyButton(text = "Test") {
                     navController.navigate("camera_screen")
                     Log.d("Read XML", "Success")
                 }

@@ -147,7 +147,7 @@ fun TableCell(text: String, weightRow: Int) {
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = if (text.length > 30) "${text.take(29)}..." else text,
+            text = if (text.length > 50) "${text.take(49)}..." else text,
             fontSize = 14.sp,
             color = Color.Black
         )

@@ -109,7 +109,7 @@ class MainViewModel(private val dataRepository: DatabaseRepository,  private val
     private val _dataListProducts = MutableLiveData<List<ContentValues>>()
     val dataListProducts: LiveData<List<ContentValues>> get() = _dataListProducts
 
-    var listReturn: List<String> = listOf("Name","Capacity", "Length", "Weight","Square","Quantity","Production date","Lot Number","Pallet Number","Volume",)
+    var listReturn: List<String> = listOf("Name","Capacity", "Length", "Weight","Square","Containers on pallet","Quantity","Production date","Lot Number","Pallet Number","Volume",)
     var productsData: ProductsData = ProductsData()
 
     private val channel = Channel<suspend () -> Unit>(capacity = Channel.UNLIMITED)
@@ -176,7 +176,7 @@ class MainViewModel(private val dataRepository: DatabaseRepository,  private val
             var length: Int? = null
 
             if (position + 4 <= barcodeData.length && aiLengths.containsKey(barcodeData.substring(position, position + 3))) {
-                ai = barcodeData.substring(position, position + 4)
+                ai = barcodeData.substring(position, position + 3)
                 length = aiLengths[barcodeData.substring(position, position + 3)]
                 position += 4
             }
@@ -231,11 +231,23 @@ class MainViewModel(private val dataRepository: DatabaseRepository,  private val
         return result
     }
     fun setInfo(list: Map<String, String>){
-        value.put("Capacity", list.get("37"))
-        value.put("Weight", list.get("310"))
-        value.put("Length", list.get("311"))
-        value.put("Square", list.get("314"))
-        value.put("Square", list.get("30"))
+
+        if (!list.get("310").isNullOrEmpty()){
+            value.put("Weight", "${list.get("310")?.toInt()} kg")
+        }
+        if (!list.get("311").isNullOrEmpty()){
+            value.put("Length","${list.get("311")?.toInt()} m" )
+        }
+        if (!list.get("314").isNullOrEmpty()){
+            value.put("Square", "${list.get("314")?.toInt()} m^2")
+        }
+        if(list.get("30").isNullOrEmpty()){
+            value.put("Capacity", list.get("37"))
+        }else{
+            value.put("Capacity", list.get("30"))
+            value.put("Containers on pallet", list.get("37"))
+        }
+
         val dateString = list["11"] ?: ""
         if (dateString.length == 6) {
             val year = dateString.substring(0, 2).toInt()
@@ -252,7 +264,6 @@ class MainViewModel(private val dataRepository: DatabaseRepository,  private val
 
         Log.d("SetInfo", "$value")
     }
-
     fun takeGtinOfNs_semk(partBarcode: Int, selectedField: String, selectedTable: String, viewModel: MainViewModel, parsedData: Map<String, String>): LiveData<List<ContentValues>> {
         Log.d("takeGtinOfNs_semk", " Взятый GTIN ${productsData.GTIN}")
         _selectedColumns.clear()
