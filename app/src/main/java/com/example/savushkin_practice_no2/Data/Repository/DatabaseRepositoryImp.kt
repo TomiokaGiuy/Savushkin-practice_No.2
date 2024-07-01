@@ -10,14 +10,14 @@ class DatabaseRepositoryImp(private val sqlRepository: SqlRepository): DatabaseR
 
     override suspend fun insertDataToDb(contentValuesList: List<ContentValues>, TABLE_NAME: String, viewModel: MainViewModel) {
 
-        return sqlRepository.insertData(contentValuesList, TABLE_NAME, viewModel)
+        return sqlRepository.insertData(dataList = contentValuesList,TABLE_NAME = TABLE_NAME,viewModel = viewModel)
     }
 
 
     override fun getDataDb(
         tableName: String,
         selectedColumns: Map<String, String?>,
-        listColumnsForReturn: List<String>,
+        listColumnsForReturn: List<String>?,
         viewModel: MainViewModel
     ): LiveData<List<ContentValues>> {
 

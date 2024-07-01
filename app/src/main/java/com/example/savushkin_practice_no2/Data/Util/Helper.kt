@@ -39,35 +39,22 @@ class Helper {
         }
     }
     fun parserXML(context: Context, fileName: String):List<ContentValues> {
+        val buf: List<ContentValues> = listOf()
         var java = Java()
         return java.parce(context.assets.open(fileName))
     }
 
 
 
-    fun parseJsonRequest(jsonString: String): DataSQL? {
+    inline fun <reified T> parseJSON(jsonString: String): T? {
         return try {
             val gson = GsonBuilder().create()
-            val requet = gson.fromJson(jsonString, DataSQL::class.java)
-            Log.d("parseJsonRequest", requet.DATA)
-            requet
-        }catch (e: Exception){
+            val request = gson.fromJson(jsonString, T::class.java)
+            request
+        } catch (e: Exception) {
             Log.e("JsonManager", "Error PARSING", e)
             null
         }
     }
 
-    fun parseJSON(jsonString: String): List<NS_SEMK>? {
-        return try {
-            val gson = GsonBuilder().create()
-            val root = gson.fromJson(jsonString, Root::class.java)
-            val nsSemkList = root.NS_SEMK
-
-
-            nsSemkList
-        } catch (e: Exception) {
-            Log.e("JsonManager", "Error parsing JSON", e)
-            null
-        }
-    }
 }

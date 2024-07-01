@@ -10,21 +10,16 @@ import com.example.savushkin_practice_no2.Domain.Repository.ParserRepository
 class ParserRepositoryImp(): ParserRepository {
     override fun parserXML(context: Context, fileName: String):  List<ContentValues>  {
         var helper = Helper()
-        return helper.parserXML(context, fileName)
+        return helper.parserXML(context = context, fileName = fileName)
     }
 
     override fun readParserFile(context: Context, fileName: String): String? {
         var helper = Helper()
-        return helper.readFile(context, fileName)
+        return helper.readFile(context = context, fileName = fileName)
     }
 
-    override fun parseJSON(context: Context, fileName: String):  List<NS_SEMK>? {
+    override fun parseJSON(context: Context, fileName: String): DataSQL? {
         var helper = Helper()
-        return helper.parseJSON(readParserFile(context, fileName)!!)
-    }
-
-    override fun readRequest(context: Context, fileName: String): DataSQL? {
-        val helper = Helper()
-        return helper.parseJsonRequest(readParserFile(context, fileName)!!)
+        return helper.parseJSON(readParserFile(context = context, fileName = fileName)!!)
     }
 }

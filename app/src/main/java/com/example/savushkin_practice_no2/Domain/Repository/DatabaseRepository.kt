@@ -9,7 +9,7 @@ interface DatabaseRepository {
     fun getDataDb(
         tableName: String,
         selectedColumns: Map<String, String?>,
-        listColumnsForReturn: List<String>,
+        listColumnsForReturn: List<String>?,
         viewModel: MainViewModel
     ): LiveData<List<ContentValues>>
 

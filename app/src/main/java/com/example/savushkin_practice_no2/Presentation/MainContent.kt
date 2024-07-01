@@ -41,9 +41,9 @@ fun MainContent(
 
     LaunchedEffect(valueLoading) {
         if(isLoading){
-            if((valueLoading /100f)>=1){
 
-                navController.navigate("second_screen")
+            if((valueLoading /100f)>=1  && viewModel.loadingTasksCompleted.value != 0){
+                navController.navigate("camera_screen")
                 viewModel.setLoading(false)
             }
         }
@@ -65,12 +65,26 @@ fun MainContent(
                         .size(250.dp),
                 )
             } else {
-                MyButton(text = "Read") {
+                MyButton(text = "Start") {
                     viewModel.setLoading(true)
-                    viewModel.createTable(context, "request.json")
-                    viewModel.writeToBd(context = context, fileName = "NS_SEMK_.xml", viewModel)
+
+                    viewModel.createTable(context, "request_nsSemk.json")
+                    viewModel.createTable(context, "request_nsMc.json")
+                    viewModel.writeToBd(context = context, fileName = "NS_SEMK.xml", nameTable = "NS_SEMK", viewModel = viewModel)
+                    viewModel.writeToBd(context = context, fileName = "NS_MC.xml", nameTable = "NS_MC", viewModel = viewModel)
+
+
                     Log.d("Read XML", "Success")
                 }
+
+/*                MyButton(text = "Test") {
+                    navController.navigate("camera_screen")
+                    Log.d("Read XML", "Success")
+                }
+                MyButton(text = "Table") {
+                    navController.navigate("table_screen")
+                    Log.d("Read XML", "Success")
+                }*/
             }
         }
     }

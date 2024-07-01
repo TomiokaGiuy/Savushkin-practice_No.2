@@ -75,8 +75,21 @@ class XMLParser {
             }
         }
 
-
         @Override
+        public void endElement(String uri, String localName, String qName) {
+            if (inside != main)
+                inside = inside.getParent();
+
+            if (locE.size() > 0) {
+                Element currentElement = locE.remove(locE.size() - 1);
+                if (!locE.isEmpty()) {
+                    locE.get(locE.size() - 1).innerElements.add(currentElement);
+                } else {
+                    elements.add(currentElement);
+                }
+            }
+        }
+ /*       @Override
         public void endElement(String uri, String localName, String qName) {
             if (inside != main)
                 inside = inside.getParent();
@@ -92,7 +105,7 @@ class XMLParser {
                 elements.add(new Element(locE.get(0)));
 
         }
-
+*/
 
         @Override
         public void characters(char[] ch, int start, int length) {

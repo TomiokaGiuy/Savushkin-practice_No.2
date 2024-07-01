@@ -13,6 +13,8 @@ import com.example.savushkin_practice_no2.Presentation.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 class SqlRepositoryImp(val context: Context): SqlRepository {
@@ -22,35 +24,46 @@ class SqlRepositoryImp(val context: Context): SqlRepository {
     private var openCounter = 0
 
 
-    override suspend fun insertData(dataList: List<ContentValues>, TABLE_NAME: String, viewModel: MainViewModel) {
-        openDB()
-        var count = 0
-        CoroutineScope(Dispatchers.IO).launch {
-            dataList.forEachIndexed { index, values ->
+    private val dbMutex = Mutex()
+
+
+    override suspend fun insertData(
+        dataList: List<ContentValues>,
+        TABLE_NAME: String,
+        viewModel: MainViewModel
+    ) {
+        dbMutex.withLock {
+            openDB()
+            var count = 0
+            try {
                 db?.beginTransaction()
-                try {
-                    count++
-                    val progress = (count.toFloat() / dataList.size.toFloat()) * 100f
-                    viewModel.updateValueLoading(progress.toInt())
-                    Log.d("insertData", "$count/${dataList.size} progress $progress inserted $values")
-                    db?.insert(TABLE_NAME, null, values)
-                    db?.setTransactionSuccessful()
-                } catch (e: Exception) {
-                    Log.e("DatabaseError", "Error while inserting data", e)
-                } finally {
-                    db?.endTransaction()
+                dataList.forEachIndexed { index, values ->
+                    try {
+                        count++
+                        val progress = (count.toFloat() / dataList.size.toFloat()) * 100f
+                        viewModel.updateValueLoading(progress.toInt())
+                        Log.d(
+                            "insertData",
+                            "$count/${dataList.size} progress $progress inserted $values"
+                        )
+                        db?.insertOrThrow(TABLE_NAME, null, values)
+                    } catch (e: Exception) {
+                        Log.e("DatabaseError", "Error while inserting data", e)
+                    }
                 }
+                db?.setTransactionSuccessful()
+            } finally {
+                db?.endTransaction()
+                closeDb()
+                viewModel.decreaseTasksCompleted()
             }
-            closeDb()
-//            viewModel.updateIsLoading(false)
         }
     }
-
 
     override fun getData(
         tableName: String,
         selectedColumns: Map<String, String?>,
-        listColumnsForReturn: List<String>,
+        listColumnsForReturn: List<String>?,
         viewModel: MainViewModel
     ): LiveData<List<ContentValues>> {
         val liveData = MutableLiveData<List<ContentValues>>()
@@ -61,7 +74,7 @@ class SqlRepositoryImp(val context: Context): SqlRepository {
             val dataList = mutableListOf<ContentValues>()
             var cursor: Cursor? = null
             try {
-                val columns = if (listColumnsForReturn.isEmpty()) null else listColumnsForReturn.toTypedArray()
+                val columns = if (listColumnsForReturn.isNullOrEmpty()) null else listColumnsForReturn.toTypedArray()
                 val selection: String?
                 val selectionArgs: Array<String>?
 
@@ -194,15 +207,18 @@ class SqlRepositoryImp(val context: Context): SqlRepository {
     }
 
 
-    fun openDB(){
-
-        db = dbHelper.writableDatabase
+    private fun openDB() {
+        if (db == null || !db!!.isOpen) {
+            db = dbHelper.writableDatabase
+        }
         openCounter++
     }
-    fun closeDb(){
+
+    private fun closeDb() {
         openCounter--
-        if (openCounter==0){
+        if (openCounter == 0) {
             dbHelper.close()
+            db = null
         }
     }
 }

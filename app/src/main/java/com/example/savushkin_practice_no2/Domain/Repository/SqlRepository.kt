@@ -11,7 +11,7 @@ interface SqlRepository {
     fun getData(
         tableName: String,
         selectedColumns: Map<String, String?>,
-        listColumnsForReturn: List<String>,
+        listColumnsForReturn: List<String>?,
         viewModel: MainViewModel
     ): LiveData<List<ContentValues>>
 
