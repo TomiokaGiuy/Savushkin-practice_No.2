@@ -25,8 +25,6 @@ class XMLParser {
         MyHandler handler = new MyHandler();
         saxParser.parse(xml, handler);
         XMLObject xmlObject = handler.getDeliveryNote();
-        //String tag = xmlObject.getTag();
-        //String value = xmlObject.getValue();
         return xmlObject;
     }
 
@@ -89,23 +87,6 @@ class XMLParser {
                 }
             }
         }
- /*       @Override
-        public void endElement(String uri, String localName, String qName) {
-            if (inside != main)
-                inside = inside.getParent();
-
-
-            index = locE.size()-1;
-            if(index>0) {
-//                locE.get(index-1).innerElements = new Element(locE.get(index));
-                locE.get(index - 1).innerElements.add(new Element(locE.get(index)));
-                locE.remove(index);
-            }
-            else
-                elements.add(new Element(locE.get(0)));
-
-        }
-*/
 
         @Override
         public void characters(char[] ch, int start, int length) {

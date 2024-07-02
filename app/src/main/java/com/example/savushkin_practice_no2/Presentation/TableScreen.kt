@@ -7,27 +7,18 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,9 +38,6 @@ fun TableScreen(
     val scrollStateHorizontal = rememberScrollState()
     val dataListProducts by viewModel.dataListProducts.observeAsState(emptyList())
 
-    val tableField by viewModel.tableField.observeAsState(emptyList())
-
-    val barcodeInput = remember { mutableStateOf("]C10114810268048163310300750411231030107012\u001D210114") }
 
     LaunchedEffect(key1 = true) {
         viewModel.getListTableField("NS_MC")
@@ -62,29 +50,21 @@ fun TableScreen(
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)) {
-/*        Button(
-            onClick = {
-                viewModel.updateBarcode(barcodeInput.value, viewModel)
-            },
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text("Ввести штрих-код")
-        }*/
+
+        Header("Result")
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .horizontalScroll(scrollStateHorizontal)
         ) {
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(8.dp),
                 state = scrollStateVertical
             ) {
-                item {
-                    Text(text = "Result")
-                }
                 items(dataListProducts.size) { index ->
                     DataTableRow(index = index, contentValues = dataListProducts[index], viewModel.listReturn)
                 }
@@ -109,8 +89,8 @@ fun DataTableRow(index: Int, contentValues: ContentValues, tableField: List<Stri
                 if(contentValues.getAsString(item).isNullOrEmpty() || item ==""){
 
                 }else{
-                    TableHeader(item, 200)
-                    TableCell(text = contentValues.getAsString(item) ?: "", weightRow = 120)
+                    TableHeader(item)
+                    TableCell(text = contentValues.getAsString(item) ?: "")
                 }
             }
         }
@@ -118,12 +98,12 @@ fun DataTableRow(index: Int, contentValues: ContentValues, tableField: List<Stri
 }
 
 @Composable
-fun TableHeader(text: String, weightRow: Int) {
+fun TableHeader(text: String) {
     Column(
         modifier = Modifier
             .padding(top = 5.dp)
             .fillMaxWidth()
-            //.width(weightRow.dp)
+
             .height(25.dp),
         verticalArrangement = Arrangement.Center
 
@@ -138,7 +118,7 @@ fun TableHeader(text: String, weightRow: Int) {
 }
 
 @Composable
-fun TableCell(text: String, weightRow: Int) {
+fun TableCell(text: String) {
     Column(
         modifier = Modifier
             .padding( 0.dp)

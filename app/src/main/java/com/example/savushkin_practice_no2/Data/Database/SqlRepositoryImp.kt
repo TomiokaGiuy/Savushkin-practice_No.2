@@ -53,9 +53,10 @@ class SqlRepositoryImp(val context: Context): SqlRepository {
                 }
                 db?.setTransactionSuccessful()
             } finally {
+                viewModel.decreaseTasksCompleted()
                 db?.endTransaction()
                 closeDb()
-                viewModel.decreaseTasksCompleted()
+
             }
         }
     }

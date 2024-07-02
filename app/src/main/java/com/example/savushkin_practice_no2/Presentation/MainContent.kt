@@ -41,9 +41,10 @@ fun MainContent(
 
     LaunchedEffect(valueLoading) {
         if(isLoading){
-
-            if((valueLoading /100f)>=1  && viewModel.loadingTasksCompleted.value != 0){
+            Log.d("loadingTasksCompleted", "${viewModel.loadingTasksCompleted.value}")
+            if((valueLoading /100f)>=1  && viewModel.loadingTasksCompleted.value == 0){
                 navController.navigate("camera_screen")
+                Log.d("loadingTasksCompleted", " next sreen")
                 viewModel.setLoading(false)
             }
         }
@@ -51,7 +52,7 @@ fun MainContent(
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        Header()
+        Header("Barcode")
 
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -70,21 +71,13 @@ fun MainContent(
 
                     viewModel.createTable(context, "request_nsSemk.json")
                     viewModel.createTable(context, "request_nsMc.json")
+
                     viewModel.writeToBd(context = context, fileName = "NS_SEMK.xml", nameTable = "NS_SEMK", viewModel = viewModel)
                     viewModel.writeToBd(context = context, fileName = "NS_MC.xml", nameTable = "NS_MC", viewModel = viewModel)
 
+                    Log.d("Read XML", "Success")
+                }
 
-                    Log.d("Read XML", "Success")
-                }
-/*
-                MyButton(text = "Test") {
-                    navController.navigate("camera_screen")
-                    Log.d("Read XML", "Success")
-                }
-                MyButton(text = "Table") {
-                    navController.navigate("table_screen")
-                    Log.d("Read XML", "Success")
-                }*/
             }
         }
     }
@@ -92,7 +85,7 @@ fun MainContent(
 
 
 @Composable
-fun Header() {
+fun Header(text: String) {
     Row(
         modifier = Modifier
             .height(50.dp)
@@ -102,7 +95,7 @@ fun Header() {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = "Barcode", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+        Text(text = "$text", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
     }
 }
 

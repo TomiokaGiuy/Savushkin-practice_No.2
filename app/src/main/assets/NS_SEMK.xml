@@ -1,5 +1,15 @@
 <?xml version="1.0" standalone="yes"?>
 <Root Database="NS_SEMK">
+	<NS_SEMK>
+      <KMC>7000005317</KMC>
+      <KRK>2</KRK>
+      <KT>-900</KT>
+      <EMK>1.6</EMK>
+      <PR>0</PR>
+      <KTARA>2201040047</KTARA>
+      <GTIN>04812552007231</GTIN>
+      <EMKPOD>1</EMKPOD>
+    </NS_SEMK>
     <NS_SEMK>
       <KMC>0101000001</KMC>
       <KRK>20</KRK>

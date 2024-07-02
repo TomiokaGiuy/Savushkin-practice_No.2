@@ -1,5 +1,15 @@
 <?xml version="1.0" standalone="yes"?>
 <BD_NS_MC>
+	<NS_MC>
+      <KMC>7000005317</KMC>
+      <KRKMC>15317</KRKMC>
+      <MARK2D>0</MARK2D>
+      <GRADUS>1</GRADUS>
+      <SNM>СтакЙогГречТеос2%140гНовДиз</SNM>
+      <SRR>0</SRR>
+      <SRP>0</SRP>
+      <EAN13>2010020208223</EAN13>
+    </NS_MC>
     <NS_MC>
       <KMC>0101000001</KMC>
       <KRKMC>0</KRKMC>

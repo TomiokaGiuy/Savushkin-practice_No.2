@@ -6,5 +6,4 @@ class CreateTableUseCase(private val dataRepository: DatabaseRepository) {
     fun invoke(CREATE_TABLE: String){
         dataRepository.createTable(CREATE_TABLE)
     }
-
 }

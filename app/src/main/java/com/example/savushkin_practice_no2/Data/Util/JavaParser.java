@@ -6,6 +6,7 @@ import android.content.ContentValues;
 
 import org.xml.sax.SAXException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -13,16 +14,17 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class Java {
+public class JavaParser {
 
-    public List<ContentValues> parce(InputStream xml) {
-        XMLObject XMLObject = null;
+    public List<ContentValues> parce(String xmlString) {
+        XMLObject xmlObject = null;
         try {
-            XMLObject = XMLParser.start(xml);
+            InputStream xml = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
+            xmlObject = XMLParser.start(xml);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
-        ArrayList<Element> dataEl = new ArrayList<>(elements);
+        ArrayList<Element> dataEl = new ArrayList<>(XMLParser.elements);
 
         List<ContentValues> dataList = new ArrayList<>();
         ContentValues contentValues = new ContentValues();
